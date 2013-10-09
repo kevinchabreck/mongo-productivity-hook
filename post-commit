@@ -1,0 +1,3 @@
+#!/usr/bin/env python
+print "it worked"
+print "just another test"
