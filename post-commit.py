@@ -3,7 +3,7 @@
 import subprocess
 from datetime import datetime
 
-p = subprocess.Popen(["tail", "-1", "../logs/HEAD"], stdout=subprocess.PIPE)
+p = subprocess.Popen(["tail", "-1", ".git/logs/HEAD"], stdout=subprocess.PIPE)
 out, err = p.communicate()
 hash = out.split(' ')[1]
 timestamp = out.split('> ')[1].split(' ')[0]
