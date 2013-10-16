@@ -29,5 +29,8 @@ for i in range(1, len(lines) - 1):
 commit = { 	"hash": hash,
 			"insertions": insertions,
 			"deletions": deletions,
-			"timestamp": timestamp }
+			"files": len(lines) - 1,
+			"timestamp": timestamp,
+			"day": 0 }
+
 #print out.replace('\n', ' ').replace('\t', ' ').split(' ')
