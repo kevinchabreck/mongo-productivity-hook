@@ -26,9 +26,8 @@ for i in range(1, len(lines) - 1):
 	file = line[2]
 	print("file: {} \n{} insertions, {} deletions".format(file, insertions, deletions))
 
-commit = { 	this.hash = hash
-			this.insertions = insertions
-			this.deletions = deletions
-			this.timestamp = timestamp
-		}
+commit = { 	"hash": hash,
+			"insertions": insertions,
+			"deletions": deletions,
+			"timestamp": timestamp }
 #print out.replace('\n', ' ').replace('\t', ' ').split(' ')
