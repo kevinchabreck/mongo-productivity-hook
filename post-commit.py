@@ -44,6 +44,6 @@ commit = { 	"hash": hash,
 			"files": len(lines) - 1,
 			"size": size }
 
-# store the document in a mongo database
+# this should have no change in size XXX
 
 print commit
