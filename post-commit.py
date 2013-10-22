@@ -10,25 +10,15 @@ hash = out.split(' ')[1]
 timestamp = out.split('> ')[1].split(' ')[0]
 time = datetime.fromtimestamp(float(timestamp))
 
-#print "hash of most recent commit: " + hash
-#print "timestamp: '{}'".format(timestamp)
-print "time: {}".format(time)
-
+# pull insertions, deletions, and # of files edited from the numstat of the commit
 p = subprocess.Popen(["git", "diff-tree", "--numstat", hash], stdout=subprocess.PIPE)
 out, err = p.communicate()
-
-print "numstat for commit {}:\n".format(hash)
-print out
-
-# pull insertions, deletions, and # of files edited from the numstat of the commit
 insertions = deletions = 0
 lines = out.split('\n')
 for i in range(1, len(lines) - 1):
 	line = lines[i].split('\t')
 	insertions += int(line[0])
 	deletions += int(line[1])
-	file = line[2]
-	print("{}: {} insertions, {} deletions".format(file, line[0], line[1]))
 
 # get the file size in bytes of each blob in the most recent two commits, and take 
 # the difference to get the "size" of the commit
@@ -43,21 +33,15 @@ for i in range(1, len(lines) - 1):
 	p = subprocess.Popen(["git", "cat-file", "-s", line[3]], stdout=subprocess.PIPE)
 	sizeB, err = p.communicate()
 	size += math.fabs(int(sizeB) - int(sizeA))
-	#print "sizeA - sizeB: {}".format(int(sizeB) - int(sizeA))
-	#print line
-
-print "total size: {}".format(size)
-
 
 # build the dictionary to be stored in the database
 commit = { 	"hash": hash,
+			"timestamp": timestamp,
+			"day": time.weekday(),
+			"hour": time.hour,
 			"insertions": insertions,
 			"deletions": deletions,
 			"files": len(lines) - 1,
-			"timestamp": timestamp,
-			"day": time.weekday(),
-			"hour": time.hour }
+			"size": size }
 
-print commit	
-
-#print out.replace('\n', ' ').replace('\t', ' ').split(' ')
+print commit
