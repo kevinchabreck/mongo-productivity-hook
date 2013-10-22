@@ -44,4 +44,6 @@ commit = { 	"hash": hash,
 			"files": len(lines) - 1,
 			"size": size }
 
+# store the document in a mongo database
+
 print commit
