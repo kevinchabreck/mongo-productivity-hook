@@ -1,7 +1,7 @@
 mongo-productivity-hook
 =======================
 
-A Git post-commit hook used to record commit meta-data, and analyze developer productivity.
+A Git post-commit hook used to record commit metadata, and analyze developer productivity.
 
 Author: Kevin Chabreck
 
