@@ -29,11 +29,17 @@ size = 0
 lines = out.split('\n')
 for i in range(1, len(lines) - 1):
 	line = lines[i].split(' ')
-	p = subprocess.Popen(["git", "cat-file", "-s", line[2]], stdout=subprocess.PIPE)
-	sizeA, err = p.communicate()
-	p = subprocess.Popen(["git", "cat-file", "-s", line[3]], stdout=subprocess.PIPE)
-	sizeB, err = p.communicate()
-	# use the absolute value of the difference (in case code has been removed)
+	if int(line[2], 16) == 0:
+		sizeA = 0
+	else:
+		p = subprocess.Popen(["git", "cat-file", "-s", line[2]], stdout=subprocess.PIPE)
+		sizeA, err = p.communicate()
+	if int(line[3], 16) == 0:
+		sizeB = 0
+	else:
+		p = subprocess.Popen(["git", "cat-file", "-s", line[3]], stdout=subprocess.PIPE)
+		sizeB, err = p.communicate()
+	#use the absolute value of the difference (in case code has been removed)
 	size += math.fabs(int(sizeB) - int(sizeA))
 
 # build the dictionary of commit metadata to be stored in the database
