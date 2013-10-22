@@ -19,7 +19,7 @@ for i in range(1, len(lines) - 1):
 	line = lines[i].split('\t')
 	insertions += int(line[0])
 	deletions += int(line[1])
-files = len(lines) - 1 #store the number of files edited
+files = len(lines) - 2 #store the number of files edited
 
 # get the hash of each blob in the most recent two commits 
 # sum the size difference from each blob pair to get the total size of the most recent commit
@@ -37,7 +37,7 @@ for i in range(1, len(lines) - 1):
 	size += math.fabs(int(sizeB) - int(sizeA))
 
 # build the dictionary of commit metadata to be stored in the database
-commit = { 	"_id": hash,
+commit = { 	"hash": hash,
 			"day": time.weekday(),
 			"hour": time.hour,
 			"insertions": insertions,
@@ -50,6 +50,6 @@ mongourl = 'mongodb://localhost:27017/' #replace with the url of the centralized
 client = pymongo.MongoClient(mongourl)
 db = client.commitdb #replace with the name of the centralized db
 collection = db.commits #replace with the name of a collection in the centralized db
-print collection.insert(commit)
+collection.insert(commit)
 
 print commit
