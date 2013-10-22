@@ -3,7 +3,10 @@
 import subprocess, pymongo, math
 from datetime import datetime
 
-
+# program: post-commit
+# author: Kevin Chabreck
+# description: a git post-commit hook that records commit metadata in a
+#			   MongoDB database. 
 
 # fetch the hash and the timestamp from the most recent commit
 p = subprocess.Popen(["tail", "-1", ".git/logs/HEAD"], stdout=subprocess.PIPE)
@@ -23,8 +26,8 @@ for i in range(1, len(lines) - 1):
 	deletions += int(line[1])
 files = len(lines) - 2
 
-# get the hash of each blob in the most recent two commits 
-# sum the size difference from each blob pair to get the total commit size
+# get the hash of each blob in the most recent two commits, and sum
+# the size difference from each blob pair to get the total commit size
 p = subprocess.Popen(["git", "diff-tree", hash], stdout=subprocess.PIPE)
 out, err = p.communicate()
 size = 0
@@ -43,7 +46,7 @@ for i in range(1, len(lines) - 1):
 	else:
 		p = subprocess.Popen(["git", "cat-file", "-s", line[3]], stdout=subprocess.PIPE)
 		sizeB, err = p.communicate()
-	#take the absolute value in case of a negative difference (code/files removed)
+	# take the absolute value in case of a negative difference (code/files removed)
 	size += math.fabs(int(sizeB) - int(sizeA))
 
 # build the dictionary of commit metadata to be stored in the database
@@ -56,8 +59,7 @@ commit = { 	"hash": hash,
 			"size": size }
 
 # store the "commit" document in a mongo database
-mongourl = 'mongodb://localhost:27017/' #replace with the url of the centralized db
-client = pymongo.MongoClient(mongourl)
+client = pymongo.MongoClient('mongodb://localhost:27017/') #replace with the url of the centralized db
 db = client.commitdb #replace 'commitdb' with the name of the centralized db
 collection = db.commits #replace 'commits' with the name of a collection in the centralized db
 collection.insert(commit)
