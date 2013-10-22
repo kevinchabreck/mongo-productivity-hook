@@ -19,7 +19,7 @@ for i in range(1, len(lines) - 1):
 	line = lines[i].split('\t')
 	insertions += int(line[0])
 	deletions += int(line[1])
-files = len(lines) - 2 #store the number of files edited
+files = len(lines) - 2
 
 # get the hash of each blob in the most recent two commits 
 # sum the size difference from each blob pair to get the total size of the most recent commit
