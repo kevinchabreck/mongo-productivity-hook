@@ -48,8 +48,8 @@ commit = { 	"hash": hash,
 # store the "commit" document in a mongo database
 mongourl = 'mongodb://localhost:27017/' #replace with the url of the centralized db
 client = pymongo.MongoClient(mongourl)
-db = client.commitdb #replace with the name of the centralized db
-collection = db.commits #replace with the name of a collection in the centralized db
+db = client.commitdb #replace 'commitdb' with the name of the centralized db
+collection = db.commits #replace 'commits' with the name of a collection in the centralized db
 collection.insert(commit)
 
 print commit

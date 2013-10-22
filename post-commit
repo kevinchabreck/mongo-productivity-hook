@@ -1,9 +1,0 @@
-#!/usr/bin/env python
-
-import subprocess
-
-p = subprocess.Popen(["tail", "-1", "../logs/HEAD"], stdout=subprocess.PIPE)
-out, err = p.communicate()
-hash = out.split(' ')[1]
-
-print "hash of most recent commit: " + hash
