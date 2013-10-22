@@ -3,12 +3,14 @@
 import subprocess, pymongo, math
 from datetime import datetime
 
+
+
 # fetch the hash and the timestamp from the most recent commit
 p = subprocess.Popen(["tail", "-1", ".git/logs/HEAD"], stdout=subprocess.PIPE)
 out, err = p.communicate()
 hash = out.split(' ')[1]
 timestamp = out.split('> ')[1].split(' ')[0]
-time = datetime.fromtimestamp(float(timestamp)) #create datetime object
+time = datetime.fromtimestamp(float(timestamp))
 
 # pull insertions, deletions, and # of files edited from the numstat of the commit
 p = subprocess.Popen(["git", "diff-tree", "--numstat", hash], stdout=subprocess.PIPE)
@@ -22,24 +24,26 @@ for i in range(1, len(lines) - 1):
 files = len(lines) - 2
 
 # get the hash of each blob in the most recent two commits 
-# sum the size difference from each blob pair to get the total size of the most recent commit
+# sum the size difference from each blob pair to get the total commit size
 p = subprocess.Popen(["git", "diff-tree", hash], stdout=subprocess.PIPE)
 out, err = p.communicate()
 size = 0
 lines = out.split('\n')
 for i in range(1, len(lines) - 1):
 	line = lines[i].split(' ')
+	# handle case of new files being tracked
 	if int(line[2], 16) == 0:
 		sizeA = 0
 	else:
 		p = subprocess.Popen(["git", "cat-file", "-s", line[2]], stdout=subprocess.PIPE)
 		sizeA, err = p.communicate()
+	# handle case of files being untracked (removed)
 	if int(line[3], 16) == 0:
 		sizeB = 0
 	else:
 		p = subprocess.Popen(["git", "cat-file", "-s", line[3]], stdout=subprocess.PIPE)
 		sizeB, err = p.communicate()
-	#use the absolute value of the difference (in case code has been removed)
+	#take the absolute value in case of a negative difference (code/files removed)
 	size += math.fabs(int(sizeB) - int(sizeA))
 
 # build the dictionary of commit metadata to be stored in the database
