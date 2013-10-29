@@ -53,6 +53,7 @@ for i in range(1, len(lines) - 1):
 commit = { 	"hash": hash,
 			"day": time.weekday(),
 			"hour": time.hour,
+			"minute": time.minute,
 			"insertions": insertions,
 			"deletions": deletions,
 			"files": files,
