@@ -7,6 +7,17 @@ from datetime import datetime
 # author: Kevin Chabreck
 # description: a git post-commit hook that records commit metadata in a
 #			   MongoDB database. 
+#			   Commit documents will be stored in the following form:
+#
+#			   { "hash": the hash of the commit
+#				 "day": the day the commit occured. int in range 0 - 6 (0 == monday, 6 == sunday)
+#				 "hour": the hour the commit occured. int in range 0-23 (0 == 12am, 23 == 11pm)
+#				 "minute": the minute the commit occured. int in range 0 - 59
+#				 "insertions": the total number of line insertions
+#				 "deletions": the total number of line deletions
+#				 "files": the total number of files edited
+#				 "size": the difference in size (in bytes) between the two most recent commits }
+
 
 # fetch the hash and the timestamp from the most recent commit
 p = subprocess.Popen(["tail", "-1", ".git/logs/HEAD"], stdout=subprocess.PIPE)
@@ -60,9 +71,9 @@ commit = { 	"hash": hash,
 			"size": size }
 
 # store the "commit" document in a mongo database
-client = pymongo.MongoClient('mongodb://localhost:27017/') #replace with the url of the centralized db
-db = client.commitdb #replace 'commitdb' with the name of the centralized db
-collection = db.commits #replace 'commits' with the name of a collection in the centralized db
+client = pymongo.MongoClient('mongodb://localhost:27017/') # replace with the url of the centralized db
+db = client.commitdb # replace 'commitdb' with the name of the centralized db
+collection = db.commits # replace 'commits' with the name of a collection in the centralized db
 collection.insert(commit)
 
 print commit
