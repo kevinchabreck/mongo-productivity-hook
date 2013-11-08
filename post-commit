@@ -5,8 +5,8 @@ from datetime import datetime
 
 # program: post-commit
 # author: Kevin Chabreck
-# description: a git post-commit hook that records commit metadata in a
-#			   MongoDB database. 
+# description: a git post-commit hook that records commit metadata in a MongoDB database.
+# 
 #			   Commit documents will be stored in the following form:
 #
 #			   { "hash": the hash of the commit
@@ -57,7 +57,7 @@ for i in range(1, len(lines) - 1):
 	else:
 		p = subprocess.Popen(["git", "cat-file", "-s", line[3]], stdout=subprocess.PIPE)
 		sizeB, err = p.communicate()
-	# take the absolute value in case of a negative difference (code/files removed)
+	# take the absolute value in case of a negative size difference (code/files removed)
 	size += math.fabs(int(sizeB) - int(sizeA))
 
 # build the dictionary of commit metadata to be stored in the database
