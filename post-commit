@@ -18,7 +18,6 @@ from datetime import datetime
 #				 "files": the total number of files edited
 #				 "size": the difference in size (in bytes) between the two most recent commits }
 
-
 # fetch the hash and the timestamp from the most recent commit
 p = subprocess.Popen(["tail", "-1", ".git/logs/HEAD"], stdout=subprocess.PIPE)
 out, err = p.communicate()
