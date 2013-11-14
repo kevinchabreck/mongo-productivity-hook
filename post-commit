@@ -10,9 +10,9 @@ from datetime import datetime
 #			   Commit documents will be stored in the following form:
 #
 #			   { "hash": the hash of the commit
-#				 "day": the day the commit occured. int in range 0 - 6 (0 == monday, 6 == sunday)
-#				 "hour": the hour the commit occured. int in range 0-23 (0 == 12am, 23 == 11pm)
-#				 "minute": the minute the commit occured. int in range 0 - 59
+#				 "day": the day the commit occurred. int in range 0 - 6 (0 == monday, 6 == sunday)
+#				 "hour": the hour the commit occurred. int in range 0-23 (0 == 12am, 23 == 11pm)
+#				 "minute": the minute the commit occurred. int in range 0 - 59
 #				 "insertions": the total number of line insertions
 #				 "deletions": the total number of line deletions
 #				 "files": the total number of files edited
